@@ -61,6 +61,7 @@ type Query {
 	userNodes(limit: Int = 4, offset: Int, snapshot: String!): UserNodes!
 	session: String
 	cities: [City]!
+    city(id: ID!): City!
 	userNodesResult(snapshot: String!, forceMessage: Boolean!): UserNodesResult!
 	userResult(id: ID!, snapshot: String!, forceMessage: Boolean!): UserResult!
 	rentedBooks: [RentedBook!]!
