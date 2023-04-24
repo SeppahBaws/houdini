@@ -216,6 +216,9 @@ export const resolvers = {
 			}
 			return cities.find((c) => c.id.toString() === id)
 		},
+		animals(_, args) {
+			return connectionFromArray(monkeys, args)
+		},
 		monkeys(_, args) {
 			return connectionFromArray(monkeys, args)
 		},
@@ -420,4 +423,17 @@ export const resolvers = {
 			return null
 		},
 	}),
+
+	Animal: {
+		__resolveType(obj, context, info) {
+			// Hard-coded for now
+			return "Monkey"
+		}
+	},
+	AnimalConnection: {
+		__resolveType(obj, context, info) {
+			// Hard-coded for now
+			return "MonkeyConnection"
+		}
+	}
 }
