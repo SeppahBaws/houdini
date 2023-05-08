@@ -1,0 +1,6 @@
+query DefaultFetchingBug {
+  usersList(snapshot: "MyComponentUsers") {
+    id
+    name
+  }
+}
