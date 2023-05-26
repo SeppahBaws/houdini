@@ -21,6 +21,7 @@ export const typeDefs = sourceFiles.map((filepath) => {
 let cityId = 1
 let libraryId = 1
 let bookId = 1
+let animalId = 1;
 
 const dataBooks = [
 	{ id: bookId++, title: 'Callimachus Pinakes' },
@@ -62,8 +63,9 @@ let cities = [
 ]
 
 let monkeys = [
-	{ id: '1', name: 'Terk', hasBanana: true, __typename: 'Monkey' },
-	{ id: '2', name: 'King Louie', hasBanana: false, __typename: 'Monkey' },
+	{ id: animalId++, name: 'Terk', hasBanana: true, __typename: 'Monkey' },
+	{ id: animalId++, name: 'King Louie', hasBanana: false, __typename: 'Monkey' },
+	{ id: animalId++, name: 'Some test monkey', hasBanana: true, __typename: 'Monkey' },
 ]
 
 // example data
@@ -216,11 +218,36 @@ export const resolvers = {
 			}
 			return cities.find((c) => c.id.toString() === id)
 		},
+		animals(_, args) {
+			const connection = connectionFromArray(monkeys, args);
+			// Hard-coded for now, we know all our animals are monkeys.
+			connection.__typename = "MonkeyConnection";
+
+			return connection;
+		},
+		animal(_, { id }) {
+			const animal = monkeys.find(m => m.id.toString() === id);
+
+			if (!animal) {
+				throw new GraphQLError('Animal not found', { code: 404 })
+			}
+
+			// Hard-coded for now, we know all our animals are monkeys.
+			animal.__typename = "Monkey";
+
+			return animal;
+		},
 		monkeys(_, args) {
-			return connectionFromArray(monkeys, args)
+			return connectionFromArray(monkeys, args);
 		},
 		monkey(_, { id }) {
-			return monkeys.find((m) => m.id.toString() === id)
+			const monkey = monkeys.find(m => m.id.toString() === id);
+
+			if (!monkey) {
+				throw new GraphQLError('Monkey not found', { code: 404 })
+			}
+
+			return monkey;
 		},
 	},
 	Subscription: {
@@ -438,8 +465,19 @@ export const resolvers = {
 				return updated
 			}
 
-			throw new GraphQLError('RentedBook not found', { code: 403 })
+			throw new GraphQLError('RentedBook not found', { code: 404 })
 		},
+		deleteAnimal(_, { animalId }) {
+			const found = monkeys.find(m => m.id.toString() === animalId);
+
+			if (!found) {
+				throw new GraphQLError("Animal not found", { code: 404 });
+			}
+
+			monkeys = monkeys.filter(m => m.id.toString() !== animalId);
+			// return found;
+			return { animal: found };
+		}
 	},
 
 	DateTime: new GraphQLScalarType({

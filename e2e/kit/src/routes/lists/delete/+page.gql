@@ -1,0 +1,10 @@
+query ListAnimals {
+  animals @list(name: "AnimalsList") {
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
+}

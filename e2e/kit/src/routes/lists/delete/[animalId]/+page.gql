@@ -1,0 +1,5 @@
+query AnimalDetailsPage($animalId: ID!) {
+  animal(id: $animalId) {
+    ...AnimalDetails
+  }
+}
