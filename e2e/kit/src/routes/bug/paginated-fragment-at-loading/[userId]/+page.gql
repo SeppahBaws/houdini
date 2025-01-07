@@ -1,0 +1,7 @@
+query PaginatedFragmentLoading_UsersUserDetails($userId: ID!) @loading {
+  user(id: $userId, snapshot: "paginated-fragment-loading", delay: 500) {
+    name
+
+    ...PaginatedFragmentLoading_UserFriendsList
+  }
+}

@@ -1,0 +1,10 @@
+query PaginatedFragmentLoading_Users {
+  usersConnection(snapshot: "paginated-fragment-loading") {
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
+}
